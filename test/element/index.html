@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="asq" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>Tests</title>
+
+    <script src="../../../webcomponentsjs/webcomponents.min.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+  </head>
+
+  <body>
+    <script>
+      // Load and run all tests (.html, .js) as one suite:
+      WCT.loadSuites([
+        'asq-rating-presenter-test.html',
+        'asq-rating-viewer-test.html',
+        'asq-rating-item-presenter-test.html',
+        'asq-rating-item-viewer-test.html'
+      ]);
+    </script>
+  </body>
+</html>

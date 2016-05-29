@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="asq" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>asq-rating presenter test</title>
+
+  <script src="../../../webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="../../../test-fixture/test-fixture.html">
+  <script src="../../../web-component-tester/browser.js"></script>
+  <script src="../../../test-fixture/test-fixture-mocha.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../../asq-rating.html">
+</head>
+<body>
+
+  <test-fixture id="leFixture">
+    <template>
+      <asq-rating type="stars" role="presenter">
+        <asq-stem><h3>An asq-rating question.</h3></asq-stem>
+        <asq-rating-item name="item-1">Item to rate #1</asq-rating-item>
+        <asq-rating-item name="item-2">Item to rate #2</asq-rating-item>
+        <asq-rating-item name="item-3">Item to rate #3</asq-rating-item>
+        <asq-rating-item name="item-4">Item to rate #4</asq-rating-item>
+      </asq-rating>
+    </template>
+  </test-fixture>
+
+<script>
+    var myEl;
+
+    describe('<asq-rating> presenter', function() {
+
+      beforeEach(function () {
+        myEl = fixture('leFixture');
+      });
+
+      describe('attributes', function() {
+
+        it('should define the "type" attribute', function() {
+          assert.equal(myEl.type, 'stars');
+        });
+      });
+
+      describe('template', function(){
+        it('should distribute <asq-stem> elements ', function() {
+          var content = myEl.shadowRoot.querySelector('content[select="asq-stem"]');
+          assert.equal(content.getDistributedNodes().length, 1);
+        });
+
+        it('should distribute <asq-rating-item> elements ', function() {
+          var content = myEl.shadowRoot.querySelector('content[select="asq-rating-item"]');
+          assert.equal(content.getDistributedNodes().length, 4);
+        });
+      });
+
+      describe('methods', function(){
+        describe('submit', function(){
+          it('should return undefined', function() {
+            assert.equal(myEl.submit(), undefined);
+          });
+        });
+      });
+
+    });
+  </script>
+
+</body>
+</html>

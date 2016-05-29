@@ -1,0 +1,1 @@
+## ASQ rating result element

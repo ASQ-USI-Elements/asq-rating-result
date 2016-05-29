@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <asq-exercise>
+    <asq-rating id="no-ratings">
+    </asq-rating>  
+
+    <asq-rating id="no-uids">
+      <asq-rating-item name="item-1">Item to rate #1</asq-rating-item>
+      <asq-rating-item name="item-2">Item to rate #2</asq-rating-item>
+      <asq-rating-item name="item-3">Item to rate #3</asq-rating-item>
+      <asq-rating-item name="item-4">Item to rate #4</asq-rating-item>
+    </asq-rating>
+
+    <asq-rating id="uids-ok">
+      <asq-rating-item uid="0123456789abcd0123456781" name="item-1">Item to rate #1</asq-rating-item>
+      <asq-rating-item uid="0123456789abcd0123456782" name="item-2">Item to rate #2</asq-rating-item>
+      <asq-rating-item uid="0123456789abcd0123456783" name="item-3">Item to rate #3</asq-rating-item>
+    </asq-rating>
+
+    <asq-rating id="same-uids">
+       <asq-rating-item uid="0123456789abcd0123456781" name="item-1">Item to rate #1</asq-rating-item>
+      <asq-rating-item uid="0123456789abcd0123456781" name="item-2">Item to rate #2</asq-rating-item>
+    </asq-rating>   
+
+    <asq-rating id="type">
+      <asq-rating-item name="item-1" uid="0123456789abcd0123456781">Item to rate #1</asq-rating-item>
+      <asq-rating-item name="item-2" uid="0123456789abcd0123456782" type="">Item to rate <em>#2</em></asq-rating-item>
+      <asq-rating-item name="item-3" uid="0123456789abcd0123456783" type="type-2">Item to rate #3</asq-rating-item>
+    </asq-rating>   
+  </asq-exercise>
+</body>
+</html>
