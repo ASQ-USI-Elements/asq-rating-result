@@ -1,10 +1,9 @@
 {
   "name": "asq-rating-result",
-  "version": "0.0.0",
-  "homepage": "https://github.com/ASQ-USI/asq-rating-result",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ASQ-USI-Elements/asq-rating-result",
   "authors": [
-    "Vasileios Triglianos <triglian@gmail.com>",
-    "Zhenfei Nie <zhenfei.nie@gmail.com>"
+    "Vasileios Triglianos <triglian@gmail.com>"
   ],
   "description": "ASQ rating result element",
   "keywords": [
@@ -12,12 +11,12 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5.1",
-    "asq-base": "ASQ-USI/asq-base#master",
-    "asq-rating": "ASQ-USI/asq-rating#master",
-    "test-fixture": "Polymer/test-fixture#~0.2.0"
+    "asq-base": "ASQ-USI-Elements/asq-base#master",
+    "asq-rating-q": "ASQ-USI-Elements/asq-rating-q",
+    "polymer": "polymer/polymer#^1.4.0"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#~2.2.6"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.6",
+    "web-component-tester": "Polymer/web-component-tester#^4.2.2"
   }
 }

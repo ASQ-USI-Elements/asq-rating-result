@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../asq-base/asq-base.html">
-<link rel="import" href="../asq-rating/asq-rating-item.html">
+<link rel="import" href="../asq-rating-q/asq-rating-item.html">
 
 <!--
 `asq-rating-result` is a used to show the result of an asq-rating question.
@@ -12,143 +12,149 @@
 @element asq-rating
 @group ASQ Elements
 @blurb `asq-rating-result` is a used to show the result of an asq-rating question.
-@homepage http://github.com/ASQ_USI/asq-rating
+@demo demo/index.html
+@homepage http://github.com/ASQ-USI-Elements/asq-rating
 -->
-<polymer-element name="asq-rating-result" attributes="type targetid targetuid">
-  <template>
-    <style>
+<dom-module id="asq-rating-result">
+  <style>
       :host{
         display: block;
       }
     </style>
+  <template>
 
     <content select="asq-stem"></content>
     <content select="asq-rating-item"></content>
     
   </template>
-
   <script>
-  (function() {
-    var p = {
+    (function () {
+      Polymer({
+        is: 'asq-rating-result',
 
-      /**
-       * This attribute indicates whether the `type` passed to the asq-rating-items. If an asq-rating-item has it's type set to a value blah blah
-       *
-       * @attribute type
-       * @type string
-       * @default "stars"
-       */
+        behaviors: [ASQ.asqElementBehavior],
 
-      type: "stars",
+        properties: {
 
-      /**
-       * The HTML id of the corresponding asq-rating question 
-       *
-       * @attribute targetid
-       * @type string
-       * @default ""
-       */
+          targetid: { 
+            type: String,
+            notify: true 
+          },
 
-      type: "targetid",
+          targetuid: { 
+            type: String,
+            notify: true 
+          },
+          /**
+           * This attribute indicates whether the `type` passed to the asq-rating-items. If an asq-rating-item has it's type set to a value blah blah
+           *
+           * @attribute type
+           * @type string
+           * @default "stars"
+           */
+          /**
+           * The HTML id of the corresponding asq-rating question 
+           *
+           * @attribute targetid
+           * @type string
+           * @default ""
+           */
+          /**
+           * This attribute will be filled on the backend upon resolution of targetid
+           *
+           * @attribute targetuid
+           * @type string
+           * @default ""
+           */
+          type: {
+            type: String,
+            value: 'targetuid',
+            notify: true
+          }
+        },
 
-      /**
-       * This attribute will be filled on the backend upon resolution of targetid
-       *
-       * @attribute targetuid
-       * @type string
-       * @default ""
-       */
-
-      type: "targetuid",
-
-
-      ready: function(){
-
-        //initialize type of rating items
-        var ari = this.querySelectorAll('asq-rating-item');
-        ari.array().forEach(function(item){
-            if(item.type == '' || item.type == undefined || item.type == null){
+        ready: function () {
+          //initialize type of rating items
+          Polymer.dom(this).querySelectorAll('asq-rating-item').forEach(function (item) {
+            if (item.type == '' || item.type == undefined || item.type == null) {
               item.type = this.type;
             }
-        }.bind(this));
+          }.bind(this));
+          role = this.roles.VIEWER;
+        },
 
-        role = this.roles.VIEWER;
-      },
-
-      created: function(){
-        document.addEventListener('asq-ready', function(evt){
-          try{
-            this.subscribeToEvents(evt.detail.asqEventBus)
-          }catch(err){
-            console.debug('failed to subscribeToEvents');
-          }
-        }.bind(this));
-      },
-
-      onQuestionType: function(evt){
-        if(!evt || ! evt.questionType) return;
-
-        if(evt.questionType == 'asq-rating-result'){
-          if(evt.type == "progress"){
-            this.onProgress(evt.question);
-          }else if(evt.type == "restorePresenter"){
-            if(this.role !== this.roles.PRESENTER) return;
-            this.onRestorePresenter(evt);
-          }
-          else if(evt.type == "restoreViewer"){
-            if(this.role !== this.roles.VIEWER) return;
-            this.onRestoreViewer(evt);
-          }
-        }
-      },
-
-      onRestorePresenter: function(evt){
-        evt.questions.forEach(function(q){
-         if(q.uid != this.targetuid) return;
-          q.data.ratingItems.forEach(function(rItem){
-            if(rItem.rating >= 0){
-              this.updateRatingProgress(rItem._id, rItem.rating);
+        created: function () {
+          document.addEventListener('asq-ready', function (evt) {
+            try {
+              this.subscribeToEvents(evt.detail.asqEventBus);
+            } catch (err) {
+              console.debug('failed to subscribeToEvents');
             }
           }.bind(this));
-        }.bind(this));
-      },
+        },
 
-      onRestoreViewer: function(evt){
-        //for now they are the same
-        this.onRestorePresenter(evt);
-      },
-
-      onProgress: function(question){
-        if(question.uid !== this.targetuid) return;
-        this.updateProgress(question.ratings, question.total)
-      },
-
-      updateProgress: function(ratings){
-        for (var key in ratings){
-          if(ratings.hasOwnProperty(key)){
-            this.updateRatingProgress(key, ratings[key]);
+        onQuestionType: function (evt) {
+          if (!evt || !evt.questionType)
+            return;
+          if (evt.questionType == 'asq-rating-result') {
+            if (evt.type == 'progress') {
+              this.onProgress(evt.question);
+            } else if (evt.type == 'restorePresenter') {
+              if (this.role !== this.roles.PRESENTER)
+                return;
+              this.onRestorePresenter(evt);
+            } else if (evt.type == 'restoreViewer') {
+              if (this.role !== this.roles.VIEWER)
+                return;
+              this.onRestoreViewer(evt);
+            }
           }
+        },
+
+        onRestorePresenter: function (evt) {
+          evt.questions.forEach(function (q) {
+            if (q.uid != this.targetuid)
+              return;
+            q.data.ratingItems.forEach(function (rItem) {
+              if (rItem.rating >= 0) {
+                this.updateRatingProgress(rItem._id, rItem.rating);
+              }
+            }.bind(this));
+          }.bind(this));
+        },
+
+        onRestoreViewer: function (evt) {
+          //for now they are the same
+          this.onRestorePresenter(evt);
+        },
+
+        onProgress: function (question) {
+          if (question.uid !== this.targetuid)
+            return;
+          this.updateProgress(question.ratings, question.total);
+        },
+
+        updateProgress: function (ratings) {
+          for (var key in ratings) {
+            if (ratings.hasOwnProperty(key)) {
+              this.updateRatingProgress(key, ratings[key]);
+            }
+          }
+        },
+
+        updateRatingProgress: function (uid, val) {
+          var ratingItem = Polymer.dom(this).querySelector('asq-rating-item[data-targetuid="' + uid + '"]');
+          if (!ratingItem) {
+            console.debug('failed to updateRatingItemProgress, could not find rating item with data-targetuid %s', uid);
+            return;
+          }
+          ratingItem.rating = val;
+        },
+
+        subscribeToEvents: function (eventBus) {
+          eventBus.on('asq:question_type', this.onQuestionType.bind(this));
         }
-      },
-
-      updateRatingProgress: function(uid, val){
-        var ratingItem = this.querySelector('asq-rating-item[data-targetuid="'+ uid +'"]');
-        if(! ratingItem){
-          console.debug('failed to updateRatingItemProgress, could not find rating item with data-targetuid %s', uid);
-          return;
-        }
-        ratingItem.rating = val;
-      },
-
-      subscribeToEvents: function(eventBus){
-        eventBus.on('asq:question_type', this.onQuestionType.bind(this));
-      }
-
-    }
-
-    ASQ.asqify(p);
-    Polymer('asq-rating-result', p);
-
-  })();
+      });
+    }());
   </script>
-</polymer-element>
+</dom-module>
